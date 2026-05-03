@@ -1,0 +1,1205 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>sysCat64 — GitHub Portfolio</title>
+  <meta name="description" content="sysCat64の個人制作、OSS参加、AIコーディングを活用した開発記録をまとめたGitHubポートフォリオ。">
+  <style>
+    :root {
+      --bg: #0d1117;
+      --surface: #161b22;
+      --surface-subtle: #21262d;
+      --surface-inset: #010409;
+      --fg: #e6edf3;
+      --muted: #8b949e;
+      --subtle: #6e7681;
+      --border: #30363d;
+      --border-muted: #21262d;
+      --accent: #2f81f7;
+      --accent-hover: #58a6ff;
+      --accent-subtle: rgba(56, 139, 253, 0.12);
+      --success: #3fb950;
+      --success-subtle: rgba(63, 185, 80, 0.12);
+      --danger: #f85149;
+      --warning: #d29922;
+      --done: #a371f7;
+      --shadow: 0 16px 48px rgba(1, 4, 9, 0.36);
+      --font-ui: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+      --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      --container: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 18% 0%, rgba(47, 129, 247, 0.16), transparent 32rem),
+        radial-gradient(circle at 86% 12%, rgba(63, 185, 80, 0.10), transparent 24rem),
+        var(--bg);
+      color: var(--fg);
+      font-family: var(--font-ui);
+      font-size: 14px;
+      line-height: 1.5;
+      letter-spacing: 0;
+    }
+
+    a {
+      color: var(--accent-hover);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .skip-link {
+      position: absolute;
+      left: 12px;
+      top: -48px;
+      z-index: 20;
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--surface);
+      color: var(--fg);
+      transition: top 120ms ease-out;
+    }
+
+    .skip-link:focus {
+      top: 12px;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid var(--border);
+      background: rgba(13, 17, 23, 0.82);
+      backdrop-filter: blur(16px);
+    }
+
+    .nav {
+      width: min(100%, var(--container));
+      margin: 0 auto;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--fg);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .mark {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--surface);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--success);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav-links a {
+      padding: 6px 10px;
+      border-radius: 6px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .nav-links a:hover {
+      background: var(--surface-subtle);
+      color: var(--fg);
+      text-decoration: none;
+    }
+
+    main {
+      width: min(100%, var(--container));
+      margin: 0 auto;
+      padding: 0 20px 72px;
+    }
+
+    .hero {
+      min-height: calc(100vh - 57px);
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.95fr);
+      gap: 32px;
+      align-items: center;
+      padding: 72px 0 56px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 18px;
+      color: var(--success);
+      font-family: var(--font-mono);
+      font-size: 12px;
+    }
+
+    .status-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: var(--success);
+      box-shadow: 0 0 0 4px var(--success-subtle);
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      margin-bottom: 16px;
+      max-width: 780px;
+      font-size: clamp(44px, 7vw, 84px);
+      line-height: 0.98;
+      letter-spacing: -0.01em;
+      font-weight: 600;
+    }
+
+    .lead {
+      max-width: 680px;
+      margin-bottom: 24px;
+      color: #c9d1d9;
+      font-size: clamp(17px, 2.2vw, 22px);
+      line-height: 1.45;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 26px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 36px;
+      padding: 6px 14px;
+      border: 1px solid rgba(240, 246, 252, 0.1);
+      border-radius: 6px;
+      background: var(--surface-subtle);
+      color: var(--fg);
+      font-weight: 600;
+      box-shadow: 0 1px 0 rgba(1, 4, 9, 0.2);
+    }
+
+    .button:hover {
+      border-color: #8b949e;
+      text-decoration: none;
+    }
+
+    .button.primary {
+      background: #238636;
+      color: #ffffff;
+      border-color: rgba(240, 246, 252, 0.1);
+    }
+
+    .button.primary:hover {
+      background: #2ea043;
+      border-color: rgba(240, 246, 252, 0.1);
+    }
+
+    .button svg,
+    .text-link svg,
+    .meta svg {
+      width: 16px;
+      height: 16px;
+      flex: 0 0 auto;
+      fill: currentColor;
+    }
+
+    .quick-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      max-width: 580px;
+    }
+
+    .stat {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: rgba(22, 27, 34, 0.72);
+      padding: 12px;
+    }
+
+    .stat strong {
+      display: block;
+      color: var(--fg);
+      font-size: 20px;
+      line-height: 1.15;
+      font-weight: 600;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .repo-visual {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: linear-gradient(180deg, rgba(22, 27, 34, 0.94), rgba(13, 17, 23, 0.96));
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .repo-titlebar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .repo-name {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+      font-weight: 600;
+    }
+
+    .repo-name span {
+      color: var(--accent-hover);
+    }
+
+    .repo-name small {
+      padding: 0 6px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 400;
+    }
+
+    .repo-tabs {
+      display: flex;
+      gap: 2px;
+      padding: 0 12px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface-inset);
+      overflow-x: auto;
+    }
+
+    .repo-tabs span {
+      padding: 11px 10px 9px;
+      border-bottom: 2px solid transparent;
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .repo-tabs .active {
+      color: var(--fg);
+      border-color: var(--warning);
+      font-weight: 600;
+    }
+
+    .code-window {
+      padding: 16px;
+    }
+
+    .file-path {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 12px;
+    }
+
+    pre {
+      margin: 0;
+      overflow-x: auto;
+      border: 1px solid var(--border-muted);
+      border-radius: 6px;
+      background: #0d1117;
+      color: #c9d1d9;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.7;
+      tab-size: 2;
+    }
+
+    code {
+      font-family: var(--font-mono);
+    }
+
+    .line {
+      display: block;
+      padding: 0 14px;
+    }
+
+    .line:first-child {
+      padding-top: 12px;
+    }
+
+    .line:last-child {
+      padding-bottom: 12px;
+    }
+
+    .line::before {
+      content: attr(data-line);
+      display: inline-block;
+      width: 24px;
+      margin-right: 14px;
+      color: var(--subtle);
+      text-align: right;
+      user-select: none;
+    }
+
+    .token-blue { color: #79c0ff; }
+    .token-green { color: #7ee787; }
+    .token-purple { color: #d2a8ff; }
+    .token-red { color: #ff7b72; }
+    .token-muted { color: #8b949e; }
+
+    section {
+      padding: 58px 0;
+      border-top: 1px solid var(--border-muted);
+    }
+
+    .section-header {
+      display: grid;
+      grid-template-columns: minmax(0, 0.38fr) minmax(0, 0.62fr);
+      gap: 28px;
+      align-items: start;
+      margin-bottom: 24px;
+    }
+
+    .section-kicker {
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 12px;
+    }
+
+    h2 {
+      margin-bottom: 8px;
+      font-size: clamp(26px, 4vw, 40px);
+      line-height: 1.16;
+      letter-spacing: -0.01em;
+      font-weight: 600;
+    }
+
+    .section-copy {
+      max-width: 680px;
+      color: #c9d1d9;
+      font-size: 16px;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(300px, 0.82fr);
+      gap: 16px;
+    }
+
+    .panel {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: rgba(22, 27, 34, 0.72);
+      overflow: hidden;
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .panel-header h3 {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .panel-body {
+      padding: 16px;
+    }
+
+    .about-list {
+      display: grid;
+      gap: 12px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .about-list li {
+      display: grid;
+      grid-template-columns: 92px minmax(0, 1fr);
+      gap: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-muted);
+    }
+
+    .about-list li:last-child {
+      padding-bottom: 0;
+      border-bottom: 0;
+    }
+
+    .about-list strong {
+      color: var(--fg);
+      font-size: 13px;
+    }
+
+    .about-list span {
+      color: #c9d1d9;
+    }
+
+    .terminal {
+      background: var(--surface-inset);
+    }
+
+    .terminal-row {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border-muted);
+      font-family: var(--font-mono);
+      font-size: 12px;
+    }
+
+    .terminal-row:last-child {
+      border-bottom: 0;
+    }
+
+    .prompt {
+      color: var(--success);
+      white-space: nowrap;
+    }
+
+    .terminal-row span:last-child {
+      color: #c9d1d9;
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .project-card {
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--surface);
+      transition: transform 160ms ease-out, border-color 160ms ease-out, background 160ms ease-out;
+    }
+
+    .project-card:hover {
+      transform: translateY(-2px);
+      border-color: #6e7681;
+      background: #1b222b;
+    }
+
+    .project-card .panel-body {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .project-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .project-title h3 {
+      margin: 0;
+      color: var(--accent-hover);
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .visibility {
+      padding: 1px 7px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .project-card p {
+      min-height: 84px;
+      color: #c9d1d9;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 0 0 16px;
+      padding: 0;
+      list-style: none;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 2px 8px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(110, 118, 129, 0.1);
+      color: #c9d1d9;
+      font-size: 12px;
+    }
+
+    .project-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: auto;
+      padding-top: 14px;
+      border-top: 1px solid var(--border-muted);
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .meta {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .language-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: var(--accent);
+    }
+
+    .language-dot.ts { background: #3178c6; }
+    .language-dot.py { background: #3572a5; }
+    .language-dot.rs { background: #dea584; }
+
+    .card-links {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .text-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-hover);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .skills-layout {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .skill-group {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: rgba(22, 27, 34, 0.72);
+      padding: 14px;
+    }
+
+    .skill-group h3 {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .skill-icon {
+      width: 22px;
+      height: 22px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--surface-inset);
+      color: var(--success);
+      font-family: var(--font-mono);
+      font-size: 11px;
+    }
+
+    .skill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .activity-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 360px;
+      gap: 16px;
+      align-items: start;
+    }
+
+    .contrib-grid {
+      display: grid;
+      grid-template-columns: repeat(26, minmax(8px, 1fr));
+      gap: 4px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--surface);
+    }
+
+    .cell {
+      aspect-ratio: 1;
+      border-radius: 2px;
+      background: #161b22;
+      outline: 1px solid rgba(48, 54, 61, 0.38);
+    }
+
+    .cell.l1 { background: rgba(46, 160, 67, 0.26); }
+    .cell.l2 { background: rgba(46, 160, 67, 0.46); }
+    .cell.l3 { background: rgba(46, 160, 67, 0.68); }
+    .cell.l4 { background: #3fb950; }
+
+    .activity-note {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .timeline {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .timeline li {
+      display: grid;
+      grid-template-columns: 22px minmax(0, 1fr);
+      gap: 10px;
+      padding: 0 0 16px;
+      color: #c9d1d9;
+    }
+
+    .timeline li:last-child {
+      padding-bottom: 0;
+    }
+
+    .timeline-marker {
+      width: 14px;
+      height: 14px;
+      margin-top: 3px;
+      border: 2px solid var(--success);
+      border-radius: 999px;
+      background: var(--surface);
+      box-shadow: 0 0 0 4px var(--success-subtle);
+    }
+
+    .timeline strong {
+      display: block;
+      margin-bottom: 2px;
+      color: var(--fg);
+      font-weight: 600;
+    }
+
+    .timeline span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .contact-box {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 24px;
+      align-items: center;
+      padding: 24px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background:
+        linear-gradient(135deg, rgba(47, 129, 247, 0.16), transparent 36%),
+        var(--surface);
+    }
+
+    .contact-box h2 {
+      margin-bottom: 8px;
+      font-size: clamp(24px, 4vw, 36px);
+    }
+
+    .contact-box p {
+      max-width: 680px;
+      margin-bottom: 0;
+      color: #c9d1d9;
+      font-size: 16px;
+    }
+
+    .site-footer {
+      width: min(100%, var(--container));
+      margin: 0 auto;
+      padding: 24px 20px 40px;
+      border-top: 1px solid var(--border-muted);
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      font-size: 12px;
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .about-grid,
+      .activity-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        min-height: auto;
+        padding-top: 48px;
+      }
+
+      .project-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .skills-layout {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .section-header {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .nav {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .nav-links {
+        justify-content: flex-start;
+      }
+
+      main {
+        padding-inline: 16px;
+      }
+
+      .hero {
+        padding: 40px 0 42px;
+      }
+
+      .quick-stats,
+      .skills-layout,
+      .contact-box {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-box {
+        padding: 18px;
+      }
+
+      .about-list li {
+        grid-template-columns: 1fr;
+        gap: 4px;
+      }
+
+      .repo-titlebar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .contrib-grid {
+        grid-template-columns: repeat(13, minmax(10px, 1fr));
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">本文へ移動</a>
+
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary navigation">
+      <a class="brand" href="#top" aria-label="sysCat64 home">
+        <span class="mark">64</span>
+        <span>sysCat64</span>
+      </a>
+      <div class="nav-links" aria-label="Section links">
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#skills">Skills</a>
+        <a href="#activity">Activity</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div>
+        <div class="eyebrow"><span class="status-dot" aria-hidden="true"></span>personal projects · OSS contributions · AI-assisted development</div>
+        <h1 id="hero-title">sysCat64 builds, learns, and leaves a trail on GitHub.</h1>
+        <p class="lead">個人制作やOSS活動を通じて、UI改善、ローカライズ、デスクトップアプリ開発、AIを活用したワークフロー改善に取り組んでいます。</p>
+        <div class="hero-actions" aria-label="Profile links">
+          <a class="button primary" href="https://github.com/sysCat64" aria-label="GitHub profile">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.65 7.65 0 0 1 8 3.86c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+            GitHub
+          </a>
+          <a class="button" href="https://x.com/sysCat64" aria-label="X profile">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.9 2h3.68l-8.04 9.19L24 22h-7.41l-5.8-7.59L4.15 22H.47l8.6-9.83L0 2h7.59l5.24 6.93L18.9 2Zm-1.29 18.1h2.04L6.48 3.8H4.29L17.61 20.1Z"/></svg>
+            sysCat64 on X
+          </a>
+          <a class="button" href="https://github.com/sysCat64/open-design">open-design</a>
+          <a class="button" href="https://github.com/sysCat64/SoraPalette">SoraPalette</a>
+        </div>
+        <div class="quick-stats" aria-label="Portfolio summary">
+          <div class="stat"><strong>2</strong><span>featured repositories</span></div>
+          <div class="stat"><strong>OSS</strong><span>first contribution</span></div>
+          <div class="stat"><strong>AI</strong><span>assisted development</span></div>
+        </div>
+      </div>
+
+      <aside class="repo-visual" aria-label="GitHub inspired repository preview">
+        <div class="repo-titlebar">
+          <div class="repo-name">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75H4.5A1.5 1.5 0 0 0 3 15.5a.5.5 0 0 1-1 0v-13Zm2.5-1A1 1 0 0 0 3.5 2.5v9.71A2.98 2.98 0 0 1 4.5 12h8V1.5h-8Z"/></svg>
+            <span>sysCat64 / portfolio</span>
+            <small>Public</small>
+          </div>
+          <span class="visibility">main</span>
+        </div>
+        <div class="repo-tabs" aria-hidden="true">
+          <span class="active">Code</span>
+          <span>Issues</span>
+          <span>Pull requests</span>
+          <span>Actions</span>
+          <span>Projects</span>
+        </div>
+        <div class="code-window">
+          <div class="file-path">
+            <span>src/focus.ts</span>
+            <span>portfolio direction</span>
+          </div>
+          <pre><code><span class="line" data-line="1"><span class="token-purple">export const</span> profile = {</span>
+<span class="line" data-line="2">  handle: <span class="token-green">"sysCat64"</span>,</span>
+<span class="line" data-line="3">  focus: [<span class="token-green">"OSS"</span>, <span class="token-green">"desktop apps"</span>, <span class="token-green">"AI coding"</span>],</span>
+<span class="line" data-line="4">  values: {</span>
+<span class="line" data-line="5">    clarity: <span class="token-blue">true</span>,</span>
+<span class="line" data-line="6">    maintainability: <span class="token-blue">true</span>,</span>
+<span class="line" data-line="7">    learning: <span class="token-green">"through real repositories"</span></span>
+<span class="line" data-line="8">  }</span>
+<span class="line" data-line="9">};</span></code></pre>
+        </div>
+      </aside>
+    </section>
+
+    <section id="about" aria-labelledby="about-title">
+      <div class="section-header">
+        <div class="section-kicker">01 / ABOUT</div>
+        <div>
+          <h2 id="about-title">個人制作とOSS参加を、リポジトリの文脈で見せるプロフィール。</h2>
+          <p class="section-copy">完成品だけではなく、要件整理、UI改善、ローカライズ、AIコーディングの使い方まで、GitHub上の活動から伝わる形にしています。</p>
+        </div>
+      </div>
+      <div class="about-grid">
+        <div class="panel">
+          <div class="panel-header">
+            <h3>profile.md</h3>
+            <span class="visibility">profile</span>
+          </div>
+          <div class="panel-body">
+            <ul class="about-list">
+              <li>
+                <strong>About</strong>
+                <span>個人制作とOSS参加を通じて、使う人が迷わないUI、自然な日本語表記、保守しやすい実装を少しずつ積み上げています。</span>
+              </li>
+              <li>
+                <strong>Focus</strong>
+                <span>UIローカライズ、テーマ切り替え、Electronアプリ、オープンデータ活用、AI-assisted workflows。要件と仕様を整理してから実装する進め方を重視しています。</span>
+              </li>
+              <li>
+                <strong>Principles</strong>
+                <span>まず動くものを作り、確認できる単位で改善し、あとから読み返せる形で判断や変更点を残すことを大切にしています。</span>
+              </li>
+              <li>
+                <strong>Now</strong>
+                <span>OSSへの初参加、AIコーディングによる個人制作、GitHubプロフィールを補助するポートフォリオ整備に取り組んでいます。</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="panel terminal">
+          <div class="panel-header">
+            <h3>working style</h3>
+            <span class="visibility">terminal</span>
+          </div>
+          <div class="panel-body">
+            <div class="terminal-row"><span class="prompt">$ define</span><span>requirements, use cases, constraints</span></div>
+            <div class="terminal-row"><span class="prompt">$ build</span><span>AI-assisted coding with human review</span></div>
+            <div class="terminal-row"><span class="prompt">$ polish</span><span>UI labels, themes, accessibility, docs</span></div>
+            <div class="terminal-row"><span class="prompt">$ share</span><span>repositories, pull requests, learning notes</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" aria-labelledby="projects-title">
+      <div class="section-header">
+        <div class="section-kicker">02 / FEATURED PROJECTS</div>
+        <div>
+          <h2 id="projects-title">語れる2つのリポジトリを、無理に盛らずに見せる。</h2>
+          <p class="section-copy">初回ポートフォリオでは、数よりも背景を説明できることを優先。OSS初参加とAIコーディングによる個人制作を中心に整理しています。</p>
+        </div>
+      </div>
+      <div class="project-grid">
+        <article class="project-card">
+          <div class="panel-body">
+            <div class="project-title">
+              <h3>open-design</h3>
+              <span class="visibility">Fork / OSS</span>
+            </div>
+            <p>OSS「open-design」への初参加。UI表記の日本語ロケールファイル、ライトテーマ/ダークテーマ切り替え、ダークテーマ実装を提案しました。</p>
+            <ul class="tags">
+              <li class="tag">TypeScript</li>
+              <li class="tag">React</li>
+              <li class="tag">i18n</li>
+              <li class="tag">Theme</li>
+              <li class="tag">OSS</li>
+            </ul>
+            <div class="card-links">
+              <a class="text-link" href="https://github.com/sysCat64/open-design">Fork</a>
+              <a class="text-link" href="https://github.com/nexu-io/open-design">Upstream</a>
+            </div>
+            <div class="project-meta">
+              <span class="meta"><span class="language-dot ts"></span>TypeScript</span>
+              <span class="meta">Japanese locale</span>
+              <span class="meta">Dark theme</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <div class="panel-body">
+            <div class="project-title">
+              <h3>SoraPalette</h3>
+              <span class="visibility">Personal</span>
+            </div>
+            <p>要件と仕様を決めてからAIコーディングで制作した、気象庁オープンデータを使うElectronデスクトップ天気予報アプリ。</p>
+            <ul class="tags">
+              <li class="tag">Electron</li>
+              <li class="tag">TypeScript</li>
+              <li class="tag">Weather API</li>
+              <li class="tag">AI Coding</li>
+            </ul>
+            <div class="card-links">
+              <a class="text-link" href="https://github.com/sysCat64/SoraPalette">GitHub</a>
+            </div>
+            <div class="project-meta">
+              <span class="meta"><span class="language-dot ts"></span>TypeScript</span>
+              <span class="meta">JMA open data</span>
+              <span class="meta">Desktop app</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <div class="panel-body">
+            <div class="project-title">
+              <h3>Now Building</h3>
+              <span class="visibility">Next</span>
+            </div>
+            <p>3つ目の代表作は無理に置かず、検証中のテーマや次に育てたい制作物をここに記録します。小さく作り、公開できる形に整えていく枠です。</p>
+            <ul class="tags">
+              <li class="tag">Learning</li>
+              <li class="tag">Experiment</li>
+            </ul>
+            <div class="card-links">
+              <a class="text-link" href="https://github.com/sysCat64">GitHub Profile</a>
+            </div>
+            <div class="project-meta">
+              <span class="meta">Learning</span>
+              <span class="meta">Growing</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="skills" aria-labelledby="skills-title">
+      <div class="section-header">
+        <div class="section-kicker">03 / SKILLS</div>
+        <div>
+          <h2 id="skills-title">制作物から読み取れる技術テーマを整理する。</h2>
+          <p class="section-copy">単語の羅列ではなく、OSS参加、個人制作、AIコーディングで実際に触れている領域が伝わる単位に分けています。</p>
+        </div>
+      </div>
+      <div class="skills-layout">
+        <div class="skill-group">
+          <h3><span class="skill-icon">FE</span>Frontend</h3>
+          <ul class="skill-list">
+            <li class="tag">React</li>
+            <li class="tag">Electron</li>
+            <li class="tag">TypeScript</li>
+            <li class="tag">Theme UI</li>
+          </ul>
+        </div>
+        <div class="skill-group">
+          <h3><span class="skill-icon">API</span>Data / API</h3>
+          <ul class="skill-list">
+            <li class="tag">Open Data</li>
+            <li class="tag">Weather API</li>
+            <li class="tag">Data Mapping</li>
+            <li class="tag">App Logic</li>
+          </ul>
+        </div>
+        <div class="skill-group">
+          <h3><span class="skill-icon">Ops</span>Tools</h3>
+          <ul class="skill-list">
+            <li class="tag">GitHub</li>
+            <li class="tag">Pull Requests</li>
+            <li class="tag">Issue Reading</li>
+            <li class="tag">Docs</li>
+          </ul>
+        </div>
+        <div class="skill-group">
+          <h3><span class="skill-icon">AI</span>AI</h3>
+          <ul class="skill-list">
+            <li class="tag">AI Coding</li>
+            <li class="tag">Spec First</li>
+            <li class="tag">Human Review</li>
+            <li class="tag">Iteration</li>
+          </ul>
+        </div>
+        <div class="skill-group">
+          <h3><span class="skill-icon">UX</span>Design</h3>
+          <ul class="skill-list">
+            <li class="tag">i18n</li>
+            <li class="tag">Accessibility</li>
+            <li class="tag">Japanese UI</li>
+            <li class="tag">Dark Theme</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="activity" aria-labelledby="activity-title">
+      <div class="section-header">
+        <div class="section-kicker">04 / GITHUB ACTIVITY</div>
+        <div>
+          <h2 id="activity-title">活動量よりも、取り組みの流れを見せる。</h2>
+          <p class="section-copy">Contribution graph風の視覚要素と、最近の活動タイムラインを組み合わせています。実績が増えたらGitHub API連携にも置き換えられます。</p>
+        </div>
+      </div>
+      <div class="activity-layout">
+        <div>
+          <div class="contrib-grid" aria-label="Contribution graph summary">
+            <span class="cell"></span><span class="cell l1"></span><span class="cell"></span><span class="cell l2"></span><span class="cell l3"></span><span class="cell"></span><span class="cell l1"></span><span class="cell"></span><span class="cell l4"></span><span class="cell l2"></span><span class="cell"></span><span class="cell l1"></span><span class="cell l3"></span><span class="cell"></span><span class="cell l2"></span><span class="cell l1"></span><span class="cell"></span><span class="cell l3"></span><span class="cell l4"></span><span class="cell"></span><span class="cell l1"></span><span class="cell l2"></span><span class="cell"></span><span class="cell l1"></span><span class="cell l3"></span><span class="cell"></span>
+            <span class="cell l1"></span><span class="cell"></span><span class="cell l2"></span><span class="cell"></span><span class="cell l4"></span><span class="cell l3"></span><span class="cell"></span><span class="cell l1"></span><span class="cell l2"></span><span class="cell"></span><span class="cell l3"></span><span class="cell"></span><span class="cell l2"></span><span class="cell l4"></span><span class="cell"></span><span class="cell l1"></span><span class="cell"></span><span class="cell l2"></span><span class="cell l3"></span><span class="cell"></span><span class="cell l4"></span><span class="cell l1"></span><span class="cell"></span><span class="cell l2"></span><span class="cell"></span><span class="cell l3"></span>
+            <span class="cell"></span><span class="cell l2"></span><span class="cell l3"></span><span class="cell"></span><span class="cell l1"></span><span class="cell l4"></span><span class="cell"></span><span class="cell l2"></span><span class="cell"></span><span class="cell l1"></span><span class="cell l3"></span><span class="cell"></span><span class="cell l4"></span><span class="cell l2"></span><span class="cell"></span><span class="cell l1"></span><span class="cell l3"></span><span class="cell"></span><span class="cell l2"></span><span class="cell l1"></span><span class="cell"></span><span class="cell l3"></span><span class="cell"></span><span class="cell l4"></span><span class="cell l2"></span><span class="cell"></span>
+            <span class="cell l2"></span><span class="cell"></span><span class="cell l1"></span><span class="cell l3"></span><span class="cell"></span><span class="cell l2"></span><span class="cell l4"></span><span class="cell"></span><span class="cell l1"></span><span class="cell"></span><span class="cell l3"></span><span class="cell l2"></span><span class="cell"></span><span class="cell l1"></span><span class="cell l4"></span><span class="cell"></span><span class="cell l2"></span><span class="cell l3"></span><span class="cell"></span><span class="cell l1"></span><span class="cell"></span><span class="cell l2"></span><span class="cell l4"></span><span class="cell"></span><span class="cell l1"></span><span class="cell l3"></span>
+          </div>
+          <p class="activity-note">制作・改善・学習の流れを、GitHub上の活動として整理しています。</p>
+        </div>
+        <div class="panel">
+          <div class="panel-header">
+            <h3>recent activity</h3>
+            <span class="visibility">current</span>
+          </div>
+          <div class="panel-body">
+            <ol class="timeline">
+              <li><span class="timeline-marker" aria-hidden="true"></span><div><strong>GitHubポートフォリオを整備</strong><span>personal projects and OSS contribution summarized for public review</span></div></li>
+              <li><span class="timeline-marker" aria-hidden="true"></span><div><strong>SoraPaletteを制作</strong><span>Electron weather app created from requirements and specifications with AI coding</span></div></li>
+              <li><span class="timeline-marker" aria-hidden="true"></span><div><strong>open-designにコントリビュート</strong><span>Japanese locale, theme switching, and dark theme improvements proposed</span></div></li>
+              <li><span class="timeline-marker" aria-hidden="true"></span><div><strong>OSS参加を開始</strong><span>first contribution through a fork of nexu-io/open-design</span></div></li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" aria-labelledby="contact-title">
+      <div class="contact-box">
+        <div>
+          <div class="section-kicker">05 / CONTACT</div>
+          <h2 id="contact-title">制作物と活動ログは、GitHubから確認できます。</h2>
+        </div>
+        <div class="hero-actions">
+          <a class="button primary" href="https://github.com/sysCat64">View GitHub</a>
+          <a class="button" href="https://x.com/sysCat64" aria-label="X profile">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.9 2h3.68l-8.04 9.19L24 22h-7.41l-5.8-7.59L4.15 22H.47l8.6-9.83L0 2h7.59l5.24 6.93L18.9 2Zm-1.29 18.1h2.04L6.48 3.8H4.29L17.61 20.1Z"/></svg>
+            sysCat64 on X
+          </a>
+          <a class="button" href="https://github.com/sysCat64?tab=repositories">Repositories</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>© 2026 sysCat64.</span>
+    <span>Personal projects, OSS contributions, and AI-assisted development.</span>
+  </footer>
+</body>
+</html>
