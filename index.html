@@ -108,14 +108,11 @@
     .mark {
       width: 28px;
       height: 28px;
-      display: grid;
-      place-items: center;
       border: 1px solid var(--border);
       border-radius: 999px;
       background: var(--surface);
-      font-family: var(--font-mono);
-      font-size: 12px;
-      color: var(--success);
+      object-fit: cover;
+      display: block;
     }
 
     .nav-links {
@@ -883,7 +880,7 @@
   <header class="site-header">
     <nav class="nav" aria-label="Primary navigation">
       <a class="brand" href="#top" aria-label="sysCat64 home">
-        <span class="mark">64</span>
+        <img class="mark" src="https://github.com/sysCat64.png?size=64" alt="" width="28" height="28">
         <span>sysCat64</span>
       </a>
       <div class="nav-links" aria-label="Section links">
